@@ -9,8 +9,10 @@ var White = {
   loadLeft: 0,
   init: function() {
     if (this.loadLeft == 0) {
-      this.hideImages();
-      this.removePrevCanvas();
+      if (this.images.length == 0) {
+        this.initImages();
+      }
+      //this.removePrevCanvas();
       this.loadLeft = this.images.length;
       for (var img in this.images) {
         if (this.images[img][0].style != undefined) {
@@ -40,12 +42,15 @@ var White = {
       var ctx = c.getContext('2d');
       ctx.putImageData(data, 0, 0);
       that.canvasReference.push(c);
-      image[0].parentNode.insertBefore(c, image[0].nextSibling);
+      var dataURI = c.toDataURL();
+      image[0].src = dataURI;
+      image[0].style.visibility = "visible";
+      //image[0].parentNode.insertBefore(c, image[0].nextSibling);
       that.loadLeft -= 1;
     }
     vimg.onerror = function() {
       if (proxy == true) { // Show original image if nothing can be done.
-        image[0].style.display = image[1];
+        image[0].src = image[1];
       } else {
         that.applyToImage(image, true);
       }
@@ -55,19 +60,22 @@ var White = {
     }
     var src;
     if (proxy) {
-      src = this.proxies[0]+image[0].src;
+      src = this.proxies[0]+image[1];
     } else {
-      src = image[0].src;
+      src = image[1];
     }
     vimg.src = src;
   },
-  hideImages: function() {
-    this.images = [];
+  initImages: function() {
     var images = document.getElementsByTagName("img");
     for (var img in images) {
       if (images[img].style != undefined) {
-        this.images.push([images[img], images[img].style.display])
-        images[img].style.display = "none";
+        this.images.push([images[img], images[img].src, [[images[img].width], [images[img].height]]])
+        var i = this.images[this.images.length-1]
+        i[0].style.visibility = "hidden";
+        /*i[0].src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+        i[0].width = i[2][0];
+        i[0].height = i[2][1];*/
       }
     }
   },
