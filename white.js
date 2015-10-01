@@ -1,17 +1,10 @@
-//$("img").css("display", "none");
-var images = document.getElementsByTagName("img");
-for (var img in images) {
-  if (images[img].style != undefined) {
-    images[img].style.display = "none";
-  }
-}
-
 var White = {
   contrast: 80,
   brightness: 33,
   black_threshold: 50,
   canvasReference: [],
   init: function() {
+    this.hideImages();
     this.canvasReference = [];
     var images = document.getElementsByTagName("img");
     for (var img in images) {
@@ -36,6 +29,14 @@ var White = {
           that.canvasReference.push(c);
         }.bind(order)
         vimg.src = image.src;
+      }
+    }
+  },
+  hideImages: function() {
+    var images = document.getElementsByTagName("img");
+    for (var img in images) {
+      if (images[img].style != undefined) {
+        images[img].style.display = "none";
       }
     }
   },
@@ -108,9 +109,3 @@ var White = {
     return pixels
   }
 };
-
-(function() {
-  setTimeout(function() {
-    White.init();
-  }, 0)
-})();
