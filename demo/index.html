@@ -12,7 +12,6 @@
             -webkit-box-shadow: 0 10px 15px -12px #6f6f6f;
             box-shadow: 0 10px 15px -12px #6f6f6f;
             border: 1px solid #222;
-            margin: 10px;
           }
 
           body {
@@ -24,18 +23,41 @@
             padding: 50px;//0 10px;
             font-family: "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
           }
+
+          figure {
+            display: inline-block;
+            margin: 10px;
+          }
+
+          p {
+            margin: 10px;
+          }
         </style>
     </head>
     <body>
+      <figure>
         <img src="50.png" />
+        <figcaption>Origin</figcaption>
+      </figure>
+      <figure>
         <img src="14.png" />
+        <figcaption>Origin</figcaption>
+      </figure>
+      <figure>
         <img src="19.png" />
-        <img src="73.png" />
-        <img src="77.png" />
+        <figcaption>Origin</figcaption>
+      </figure>
+      <figure>
+        <img src="http://i.imgur.com/mwFmxRB.png" />
+        <figcaption>CORS Enabled</figcaption>
+      </figure>
+      <figure>
+        <img src="http://labrador.is/media/media/77.png" />
+        <figcaption>CORS Disabled (Use Proxy)</figcaption>
+      </figure>
+      <p>These images were all in color, but now they're not! Thanks to <b>White.js</b> (and not Photoshop or GIMP).</p>
 
-        <p>These images were all in color, but now they're not! Thanks to <b>White.js</b> (and not Photoshop or GIMP).</p>
-
-        <script src="white.js"></script>
-        <script>White.init();</script>
+      <script src="white.js"></script>
+      <script>White.init();</script>
     </body>
 </html>

@@ -3,39 +3,58 @@ var White = {
   brightness: 33,
   black_threshold: 50,
   canvasReference: [],
+  images: [],
+  origin: window.location.origin,
+  proxies: ["http://crossorigin.me/", "http://cors.io/?u="],
   init: function() {
     this.hideImages();
     this.canvasReference = [];
     var images = document.getElementsByTagName("img");
-    for (var img in images) {
-      if (images[img].style != undefined) {
-        var image = images[img]
-        var that = this;
-        var vimg = new Image();
-        var order = {
-          vimg: vimg,
-          image: image
-        }
-        vimg.onload = function() {
-          var h = this.image.height;
-          var w = this.image.width;
-          var data = that.filterImage(this.vimg, [w,h]);
-          var c = document.createElement("canvas");
-          c.height = h;
-          c.width = w;
-          var ctx = c.getContext('2d');
-          ctx.putImageData(data, 0, 0);
-          this.image.parentNode.insertBefore(c, this.image.nextSibling);
-          that.canvasReference.push(c);
-        }.bind(order)
-        vimg.src = image.src;
+    for (var img in this.images) {
+      if (this.images[img][0].style != undefined) {
+        var image = this.images[img]
+        this.applyToImage(image, false);
       }
     }
+  },
+  applyToImage: function(image, proxy) {
+    var that = this;
+    var vimg = new Image();
+    vimg.onload = function() {
+      var h = image[0].height;
+      var w = image[0].width;
+      var data = that.filterImage(vimg);
+      var c = document.createElement("canvas");
+      c.height = h;
+      c.width = w;
+      var ctx = c.getContext('2d');
+      ctx.putImageData(data, 0, 0);
+      image[0].parentNode.insertBefore(c, image[0].nextSibling);
+      that.canvasReference.push(c);
+    }
+    vimg.onerror = function() {
+      if (proxy == true) { // Show original image if nothing can be done.
+        image[0].style.display = image[1];
+      } else {
+        that.applyToImage(image, true);
+      }
+    }
+    if (image[0].src.indexOf(this.origin) != 0) { // Setting this when on origin causes a hang
+      vimg.crossOrigin = "Anonymous";
+    }
+    var src;
+    if (proxy) {
+      src = this.proxies[0]+image[0].src;
+    } else {
+      src = image[0].src;
+    }
+    vimg.src = src;
   },
   hideImages: function() {
     var images = document.getElementsByTagName("img");
     for (var img in images) {
       if (images[img].style != undefined) {
+        this.images.push([images[img], images[img].style.display])
         images[img].style.display = "none";
       }
     }
@@ -52,10 +71,8 @@ var White = {
     c.height = h;
     return c;
   },
-  filterImage: function(image, filter_args) {
-    var args = [this.getPixels(image)];
-    args.push(filter_args);
-    return this.filter.apply(null, args);
+  filterImage: function(image) {
+    return this.filter(this.getPixels(image));
   },
   filter: function(pixels, args) {
     this.brightness = White.brightness;
