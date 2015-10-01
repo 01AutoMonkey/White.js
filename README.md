@@ -14,5 +14,4 @@ Annoyed by colors? Then you're in luck, now you can insert one script and all yo
 ## ToDo
 
 - Make a .min.js
-- Allow calling White.init() multiple times.
-- Do a dat.GUI demo.
+- Make usage guidline in README
