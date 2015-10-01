@@ -12,6 +12,7 @@
             -webkit-box-shadow: 0 10px 15px -12px #6f6f6f;
             box-shadow: 0 10px 15px -12px #6f6f6f;
             border: 1px solid #222;
+            height: 327px;
           }
 
           body {
@@ -55,9 +56,23 @@
         <img src="http://labrador.is/media/media/77.png" />
         <figcaption>CORS Disabled (Use Proxy)</figcaption>
       </figure>
+
       <p>These images were all in color, but now they're not! Thanks to <b>White.js</b> (and not Photoshop or GIMP).</p>
 
       <script src="white.js"></script>
-      <script>White.init();</script>
+      <script src="dat.gui.min.js"></script>
+      <script>
+        White.init();
+        var gui = new dat.GUI();
+        gui.add(White, "contrast", 0, 255).onChange(function(newValue) {
+          White.init();
+        });
+        gui.add(White, "brightness", 0, 255).onChange(function(newValue) {
+          White.init();
+        });
+        gui.add(White, "black_threshold", 0, 255).onChange(function(newValue) {
+          White.init();
+        });
+      </script>
     </body>
 </html>
