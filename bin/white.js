@@ -1,21 +1,31 @@
 var White = {
-  contrast: 80,
+  contrast: 50,
   brightness: 33,
-  black_threshold: 50,
+  black_threshold: 40,
   canvasReference: [],
   images: [],
   origin: window.location.origin,
   proxies: ["http://crossorigin.me/", "http://cors.io/?u="],
+  loadLeft: 0,
   init: function() {
-    this.hideImages();
-    this.canvasReference = [];
-    var images = document.getElementsByTagName("img");
-    for (var img in this.images) {
-      if (this.images[img][0].style != undefined) {
-        var image = this.images[img]
-        this.applyToImage(image, false);
+    if (this.loadLeft == 0) {
+      this.hideImages();
+      this.removePrevCanvas();
+      this.loadLeft = this.images.length;
+      for (var img in this.images) {
+        if (this.images[img][0].style != undefined) {
+          var image = this.images[img]
+          this.applyToImage(image, false);
+        }
       }
     }
+  },
+  removePrevCanvas: function() {
+    for (var canvas in this.canvasReference) {
+      c = this.canvasReference[canvas];
+      c.parentNode.removeChild(c);
+    }
+    this.canvasReference = [];
   },
   applyToImage: function(image, proxy) {
     var that = this;
@@ -29,8 +39,9 @@ var White = {
       c.width = w;
       var ctx = c.getContext('2d');
       ctx.putImageData(data, 0, 0);
-      image[0].parentNode.insertBefore(c, image[0].nextSibling);
       that.canvasReference.push(c);
+      image[0].parentNode.insertBefore(c, image[0].nextSibling);
+      that.loadLeft -= 1;
     }
     vimg.onerror = function() {
       if (proxy == true) { // Show original image if nothing can be done.
@@ -51,6 +62,7 @@ var White = {
     vimg.src = src;
   },
   hideImages: function() {
+    this.images = [];
     var images = document.getElementsByTagName("img");
     for (var img in images) {
       if (images[img].style != undefined) {
