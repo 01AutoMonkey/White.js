@@ -9,6 +9,7 @@ Annoyed by colors? Then you're in luck, now you can insert one script and all yo
 - Works for images without CORS enabled (using a proxy)
 - Doesn't work for `file:///`
 - Customize variables in the filter.
+- See demo at [http://01automonkey.github.io/White.js/](http://01automonkey.github.io/White.js/)
 
 ## ToDo
 
