@@ -44,7 +44,7 @@ var White = {
       that.canvasReference.push(c);
       var dataURI = c.toDataURL();
       image[0].src = dataURI;
-      image[0].style.visibility = "visible";
+      image[0].style.visibility = image[3];
       //image[0].parentNode.insertBefore(c, image[0].nextSibling);
       that.loadLeft -= 1;
     }
@@ -70,7 +70,7 @@ var White = {
     var images = document.getElementsByTagName("img");
     for (var img in images) {
       if (images[img].style != undefined) {
-        this.images.push([images[img], images[img].src, [[images[img].width], [images[img].height]]])
+        this.images.push([images[img], images[img].src, [[images[img].width], [images[img].height]], images[img].style.visibility])
         var i = this.images[this.images.length-1]
         i[0].style.visibility = "hidden";
         /*i[0].src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
@@ -82,6 +82,9 @@ var White = {
   getPixels: function(img) {
     var c = this.getCanvas(img.width, img.height);
     var ctx = c.getContext('2d');
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.globalCompositeOperation = 'luminosity';
     ctx.drawImage(img, 0, 0, c.width, c.height);
     return ctx.getImageData(0,0,c.width,c.height);
   },
@@ -102,7 +105,8 @@ var White = {
     var d = pixels.data;
 
     // Greyscale
-    for (var i=0; i<d.length; i+=4) {
+    // We don't need this, just use built in globalCompositeOperation "luminosity".
+    /*for (var i=0; i<d.length; i+=4) {
       var r = d[i];
       var g = d[i+1];
       var b = d[i+2];
@@ -110,7 +114,7 @@ var White = {
       // The human eye is bad at seeing red and blue, so we de-emphasize them.
       var v = 0.2126*r + 0.7152*g + 0.0722*b;
       d[i] = d[i+1] = d[i+2] = v
-    }
+    }*/
 
     // Brightness
     for (var i=0; i<d.length; i+=4) {
