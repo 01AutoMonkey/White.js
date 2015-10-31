@@ -1,4 +1,5 @@
 var White = {
+  selector: "img",
   brightness: 33,
   contrast: 50,
   black_threshold: 40,
@@ -8,12 +9,13 @@ var White = {
   proxies: ["http://crossorigin.me/", "http://cors.io/?u="],
   loadLeft: 0,
   init: function(selector, b,c,t) {
+    this.selector = selector;
     this.brightness = b == undefined ? 33 : b;
     this.contrast = c == undefined ? 50 : c;
     this.black_threshold = t == undefined ? 40 : t;
     if (this.loadLeft == 0) {
       if (this.images.length == 0) {
-        this.initImages(selector == undefined ? "img" : selector);
+        this.initImages(this.selector == undefined ? "img" : this.selector);
       }
       //this.removePrevCanvas();
       this.loadLeft = this.images.length;

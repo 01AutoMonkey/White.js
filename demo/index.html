@@ -64,13 +64,13 @@
         White.init(/*"img", 33, 50, 40*/);
         var gui = new dat.GUI();
         gui.add(White, "brightness", 0, 255).onChange(function(newValue) {
-          White.init();
+          White.init(White.selector, newValue, White.contrast, White.black_threshold);
         });
         gui.add(White, "contrast", 0, 255).onChange(function(newValue) {
-          White.init();
+          White.init(White.selector, White.brightness, newValue, White.black_threshold);
         });
         gui.add(White, "black_threshold", 0, 255).onChange(function(newValue) {
-          White.init();
+          White.init(White.selector, White.brightness, White.contrast, newValue);
         });
       </script>
     </body>
