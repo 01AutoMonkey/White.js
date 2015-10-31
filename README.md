@@ -6,7 +6,7 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 
 - Works for images on origin
 - Works for images with CORS enabled
-- Works for images without CORS enabled (using a proxy)
+- Works for images with CORS disabled (using a proxy)
 - Doesn't work for `file:///`
 - Images are changed through `src` so events for img elements still hold
 - Options
