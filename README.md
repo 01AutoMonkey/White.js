@@ -10,7 +10,7 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 - Doesn't work for `file:///`
 - Images are changed through `src` so events for img elements still hold
 - Options
-  - Tweak the black & white filter through `brightness`, `contrast` and `black_threshold`.
+  - Tweak the black & white filter through `brightness`, `contrast`, `black_threshold`, and `white_threshold`.
   - Element selector (all images on page are selected by default)
   - Select CORS proxy (e.x. `http://crossorigin.me/`, `http://cors.io/?u=`)
 - See demo at [http://01automonkey.github.io/White.js/](http://01automonkey.github.io/White.js/)
@@ -20,7 +20,6 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 - Make a .min.js and build process
 - Cleanup, organize, optimize.
 - NPM and Bower package.
-- White threshold?
 
 ## How to Use
 
@@ -33,3 +32,4 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
   - `White.brightness = 33;`
   - `White.contrast = 50;`
   - `White.black_threshold = 40;`
+  - `White.white_threshold = 255;`

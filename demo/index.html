@@ -67,6 +67,7 @@
         //White.brightness = 33;
         //White.contrast = 50;
         //White.black_threshold = 40;
+        //White.white_threshold = 255;
         White.run();
         var gui = new dat.GUI();
         gui.add(White, "brightness", 0, 255).onChange(function(newValue) {
@@ -79,6 +80,10 @@
         });
         gui.add(White, "black_threshold", 0, 255).onChange(function(newValue) {
           White.black_threshold = newValue;
+          White.run();
+        });
+        gui.add(White, "white_threshold", 0, 255).onChange(function(newValue) {
+          White.white_threshold = newValue;
           White.run();
         });
       </script>

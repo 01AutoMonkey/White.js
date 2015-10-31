@@ -3,7 +3,7 @@ var White = {
   brightness: 33,
   contrast: 50,
   black_threshold: 40,
-  canvasReference: [],
+  white_threshold: 255,
   images: [],
   origin: window.location.origin,
   proxy: "http://crossorigin.me/", //or: "http://cors.io/?u=
@@ -34,11 +34,9 @@ var White = {
       c.width = w;
       var ctx = c.getContext('2d');
       ctx.putImageData(data, 0, 0);
-      that.canvasReference.push(c);
       var dataURI = c.toDataURL();
       image[0].src = dataURI;
       image[0].style.visibility = image[3];
-      //image[0].parentNode.insertBefore(c, image[0].nextSibling);
       that.loadLeft -= 1;
     }
     vimg.onerror = function() {
@@ -66,9 +64,6 @@ var White = {
         this.images.push([images[img], images[img].src, [[images[img].width], [images[img].height]], images[img].style.visibility])
         var i = this.images[this.images.length-1]
         i[0].style.visibility = "hidden";
-        /*i[0].src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
-        i[0].width = i[2][0];
-        i[0].height = i[2][1];*/
       }
     }
   },
@@ -91,23 +86,8 @@ var White = {
     return this.filter(this.getPixels(image, w, h));
   },
   filter: function(pixels, args) {
-    this.brightness = White.brightness;
-    this.contrast = White.contrast;
-    this.black_threshold = White.black_threshold;
     var data = pixels.data;
     var d = pixels.data;
-
-    // Greyscale
-    // We don't need this, just use built in globalCompositeOperation "luminosity".
-    /*for (var i=0; i<d.length; i+=4) {
-      var r = d[i];
-      var g = d[i+1];
-      var b = d[i+2];
-      // CIE luminance for the RGB
-      // The human eye is bad at seeing red and blue, so we de-emphasize them.
-      var v = 0.2126*r + 0.7152*g + 0.0722*b;
-      d[i] = d[i+1] = d[i+2] = v
-    }*/
 
     // Brightness
     for (var i=0; i<d.length; i+=4) {
@@ -137,6 +117,22 @@ var White = {
       }
       if (b < this.black_threshold) {
         d[i+2] = this.black_threshold;
+      }
+    }
+
+    // White Threshold
+    for (var i=0; i<d.length; i+=4) {
+      var r = d[i];
+      var g = d[i+1];
+      var b = d[i+2];
+      if (r > this.white_threshold) {
+        d[i] = this.white_threshold;
+      }
+      if (g > this.white_threshold) {
+        d[i+1] = this.white_threshold
+      }
+      if (b > this.white_threshold) {
+        d[i+2] = this.white_threshold;
       }
     }
 
