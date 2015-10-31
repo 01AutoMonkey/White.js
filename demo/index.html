@@ -61,12 +61,12 @@
       <script src="white.js"></script>
       <script src="dat.gui.min.js"></script>
       <script>
-        White.init();
+        White.init("img"/*, 33, 50, 40*/);
         var gui = new dat.GUI();
-        gui.add(White, "contrast", 0, 255).onChange(function(newValue) {
+        gui.add(White, "brightness", 0, 255).onChange(function(newValue) {
           White.init();
         });
-        gui.add(White, "brightness", 0, 255).onChange(function(newValue) {
+        gui.add(White, "contrast", 0, 255).onChange(function(newValue) {
           White.init();
         });
         gui.add(White, "black_threshold", 0, 255).onChange(function(newValue) {

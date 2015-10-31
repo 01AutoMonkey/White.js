@@ -1,16 +1,19 @@
 var White = {
-  contrast: 50,
   brightness: 33,
+  contrast: 50,
   black_threshold: 40,
   canvasReference: [],
   images: [],
   origin: window.location.origin,
   proxies: ["http://crossorigin.me/", "http://cors.io/?u="],
   loadLeft: 0,
-  init: function() {
+  init: function(selector, b,c,t) {
+    this.brightness = b == undefined ? 33 : b;
+    this.contrast = c == undefined ? 50 : c;
+    this.black_threshold = t == undefined ? 40 : t;
     if (this.loadLeft == 0) {
       if (this.images.length == 0) {
-        this.initImages();
+        this.initImages(selector);
       }
       //this.removePrevCanvas();
       this.loadLeft = this.images.length;
@@ -66,8 +69,8 @@ var White = {
     }
     vimg.src = src;
   },
-  initImages: function() {
-    var images = document.getElementsByTagName("img");
+  initImages: function(selector) {
+    var images = document.querySelectorAll(selector);
     for (var img in images) {
       if (images[img].style != undefined) {
         this.images.push([images[img], images[img].src, [[images[img].width], [images[img].height]], images[img].style.visibility])
