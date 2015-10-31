@@ -35,7 +35,7 @@ var White = {
     vimg.onload = function() {
       var h = image[0].height;
       var w = image[0].width;
-      var data = that.filterImage(vimg);
+      var data = that.filterImage(vimg, w, h);
       var c = document.createElement("canvas");
       c.height = h;
       c.width = w;
@@ -79,8 +79,8 @@ var White = {
       }
     }
   },
-  getPixels: function(img) {
-    var c = this.getCanvas(img.width, img.height);
+  getPixels: function(img, w, h) {
+    var c = this.getCanvas(w, h);
     var ctx = c.getContext('2d');
     ctx.fillStyle = '#FFF';
     ctx.fillRect(0, 0, c.width, c.height);
@@ -94,8 +94,8 @@ var White = {
     c.height = h;
     return c;
   },
-  filterImage: function(image) {
-    return this.filter(this.getPixels(image));
+  filterImage: function(image, w, h) {
+    return this.filter(this.getPixels(image, w, h));
   },
   filter: function(pixels, args) {
     this.brightness = White.brightness;
