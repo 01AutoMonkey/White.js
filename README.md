@@ -22,6 +22,7 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 - Include a selector, in case a user doesn't want *all* images on the page converted
 - Allow selecting CORS proxy
 - Cleanup, organize, optimize.
+- NPM and Bower package.
 
 ## How to Use
 
