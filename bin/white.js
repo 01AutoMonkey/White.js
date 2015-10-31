@@ -13,7 +13,7 @@ var White = {
     this.black_threshold = t == undefined ? 40 : t;
     if (this.loadLeft == 0) {
       if (this.images.length == 0) {
-        this.initImages(selector);
+        this.initImages(selector == undefined ? "img" : selector);
       }
       //this.removePrevCanvas();
       this.loadLeft = this.images.length;

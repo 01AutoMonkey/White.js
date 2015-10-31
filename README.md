@@ -18,13 +18,13 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 ## ToDo
 
 - Make a .min.js and build process
-- Allow for setting brightness, contrast, and black threshold in .init() call
-- Include a selector, in case a user doesn't want *all* images on the page converted
 - Allow selecting CORS proxy
 - Cleanup, organize, optimize.
 - NPM and Bower package.
+- White threshold?
 
 ## How to Use
 
 - Add the script to body: `<script src="white.js"></script>`
 - Call `White.init()`
+- `.init` can also take 4 optional variables, a selector and three integers (brightness, contrast, black threshold): `"img", 33, 50, 40`.
