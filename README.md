@@ -26,5 +26,11 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 ## How to Use
 
 - Add the script to body: `<script src="white.js"></script>`
-- Call `White.init()`
-- `.init` can also take 4 optional variables, a selector and three integers (brightness, contrast, black threshold): `"img", 33, 50, 40`.
+- Call `White.run()`
+- You can also change the following variables before calling `.run()`:
+  - `White.proxy = "http://crossorigin.me/";`
+  - `White.proxy = "http://cors.io/?u=";`
+  - `White.selector = "img";`
+  - `White.brightness = 33;`
+  - `White.contrast = 50;`
+  - `White.black_threshold = 40;`

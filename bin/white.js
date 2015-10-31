@@ -6,18 +6,13 @@ var White = {
   canvasReference: [],
   images: [],
   origin: window.location.origin,
-  proxies: ["http://crossorigin.me/", "http://cors.io/?u="],
+  proxy: "http://crossorigin.me/", //or: "http://cors.io/?u=
   loadLeft: 0,
-  init: function(selector, b,c,t) {
-    this.selector = selector;
-    this.brightness = b == undefined ? 33 : b;
-    this.contrast = c == undefined ? 50 : c;
-    this.black_threshold = t == undefined ? 40 : t;
+  run: function() {
     if (this.loadLeft == 0) {
       if (this.images.length == 0) {
         this.initImages(this.selector == undefined ? "img" : this.selector);
       }
-      //this.removePrevCanvas();
       this.loadLeft = this.images.length;
       for (var img in this.images) {
         if (this.images[img][0].style != undefined) {
@@ -26,13 +21,6 @@ var White = {
         }
       }
     }
-  },
-  removePrevCanvas: function() {
-    for (var canvas in this.canvasReference) {
-      c = this.canvasReference[canvas];
-      c.parentNode.removeChild(c);
-    }
-    this.canvasReference = [];
   },
   applyToImage: function(image, proxy) {
     var that = this;
@@ -65,7 +53,7 @@ var White = {
     }
     var src;
     if (proxy) {
-      src = this.proxies[0]+image[1];
+      src = this.proxy+image[1];
     } else {
       src = image[1];
     }

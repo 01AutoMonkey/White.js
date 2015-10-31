@@ -61,16 +61,25 @@
       <script src="white.js"></script>
       <script src="dat.gui.min.js"></script>
       <script>
-        White.init(/*"img", 33, 50, 40*/);
+        //White.proxy = "http://crossorigin.me/";
+        //White.proxy = "http://cors.io/?u=";
+        //White.selector = "img";
+        //White.brightness = 33;
+        //White.contrast = 50;
+        //White.black_threshold = 40;
+        White.run();
         var gui = new dat.GUI();
         gui.add(White, "brightness", 0, 255).onChange(function(newValue) {
-          White.init(White.selector, newValue, White.contrast, White.black_threshold);
+          White.brightness = newValue;
+          White.run();
         });
         gui.add(White, "contrast", 0, 255).onChange(function(newValue) {
-          White.init(White.selector, White.brightness, newValue, White.black_threshold);
+          White.contrast = newValue;
+          White.run();
         });
         gui.add(White, "black_threshold", 0, 255).onChange(function(newValue) {
-          White.init(White.selector, White.brightness, White.contrast, newValue);
+          White.black_threshold = newValue;
+          White.run();
         });
       </script>
     </body>
