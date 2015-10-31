@@ -1,1 +1,1 @@
-bin/white.js
+../bin/white.js
