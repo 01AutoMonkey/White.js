@@ -14,10 +14,11 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 
 ## ToDo
 
-- Make a .min.js
+- Make a .min.js and build process
 - Allow for setting brightness, contrast, and black threshold in .init() call
 - Include a selector, in case a user doesn't want *all* images on the page converted
-- Fix bug where B&W image data doesn't scale into the container
+- Allow selecting CORS proxy
+- Cleanup, organize, optimize.
 
 ## How to Use
 
