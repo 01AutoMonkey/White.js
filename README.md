@@ -8,8 +8,10 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 - Works for images with CORS enabled
 - Works for images without CORS enabled (using a proxy)
 - Doesn't work for `file:///`
-- Optional: Tweak the black & white filter through the variables `brightness`, `contrast` and `black_threshold`
 - Images are changed through `src` so events for img elements still hold
+- Options
+  - Tweak the black & white filter through `brightness`, `contrast` and `black_threshold`.
+  - Element selector (all images on page are selected by default)
 - See demo at [http://01automonkey.github.io/White.js/](http://01automonkey.github.io/White.js/)
 
 ## ToDo
