@@ -1,0 +1,31 @@
+{
+  "name": "img-white",
+  "version": "0.9.0",
+  "description": "Convert all images on page to pleasant black and white",
+  "main": "./src/white.js",
+  "bin": {
+    "img-white": "white.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/01AutoMonkey/White.js.git"
+  },
+  "keywords": [
+    "img",
+    "image",
+    "filter",
+    "black",
+    "white",
+    "grayscale",
+    "color"
+  ],
+  "author": "Brynjar Harðarson",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/01AutoMonkey/White.js/issues"
+  },
+  "homepage": "https://github.com/01AutoMonkey/White.js#readme"
+}
