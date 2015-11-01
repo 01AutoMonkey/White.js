@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/01AutoMonkey/White.js.git"
+    "url": "git+https://github.com/01AutoMonkey/img-white.git"
   },
   "keywords": [
     "img",
@@ -25,7 +25,7 @@
   "author": "Brynjar Harðarson",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/01AutoMonkey/White.js/issues"
+    "url": "https://github.com/01AutoMonkey/img-white/issues"
   },
-  "homepage": "https://github.com/01AutoMonkey/White.js#readme"
+  "homepage": "https://github.com/01AutoMonkey/img-white#readme"
 }
