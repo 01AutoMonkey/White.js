@@ -13,7 +13,7 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
   - Tweak the black & white filter through `brightness`, `contrast`, `black_threshold`, and `white_threshold`.
   - Element selector (all images on page are selected by default)
   - Select CORS proxy (e.x. `http://crossorigin.me/`, `http://cors.io/?u=`)
-- See demo at [http://01automonkey.github.io/White.js/](http://01automonkey.github.io/img-white/)
+- See demo at [http://01automonkey.github.io/img-white/](http://01automonkey.github.io/img-white/)
 
 ## ToDo
 
