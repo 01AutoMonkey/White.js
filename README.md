@@ -20,7 +20,8 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 - Make a .min.js and build process
 - Cleanup, organize, optimize.
 - NPM and Bower package.
-- Fix cross-origin Chrome bug
+- Bug: In Chrome when adding an image to the page with innerHTML, you need to call White.run() inside a setTimeout, else you get a cross-origin error.
+- Bug: When changing values with dat.GUI, sometimes only the CORS-Disabled image in demo gets updated.
 
 ## How to Use
 
