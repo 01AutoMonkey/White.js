@@ -24,7 +24,7 @@ var White = {
     this.images = [];
     var images = document.querySelectorAll(selector);
     for (var img in images) {
-      if (images[img].style != undefined) {
+      if (images[img].style != undefined && images[img].tagName == "IMG") {
         this.images.push([images[img], images[img].dataset.src || images[img].src, [[images[img].width], [images[img].height]], images[img].style.visibility])
         var i = this.images[this.images.length-1]
         i[0].style.visibility = "hidden";
