@@ -20,6 +20,7 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 - Make a .min.js and build process
 - Cleanup, organize, optimize.
 - NPM and Bower package.
+- Fix cross-origin Chrome bug
 
 ## How to Use
 

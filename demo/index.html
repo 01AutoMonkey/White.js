@@ -72,7 +72,9 @@
         {
             img_container.innerHTML = "<img src='"+input.value+"' />"
             setTimeout(function() { // For some reason we get a cross-origin error in Chrome if we don't add this timeout
+              White.selector = "#custom_img img";
               White.run();
+              White.selector = "img";
             }, 0);
         });
 
