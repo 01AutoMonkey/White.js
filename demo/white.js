@@ -10,15 +10,24 @@ var White = {
   loadLeft: 0,
   run: function() {
     if (this.loadLeft == 0) {
-      if (this.images.length == 0) {
-        this.initImages(this.selector == undefined ? "img" : this.selector);
-      }
+      this.initImages(this.selector == undefined ? "img" : this.selector);
       this.loadLeft = this.images.length;
       for (var img in this.images) {
         if (this.images[img][0].style != undefined) {
           var image = this.images[img]
           this.applyToImage(image, false);
         }
+      }
+    }
+  },
+  initImages: function(selector) {
+    this.images = [];
+    var images = document.querySelectorAll(selector);
+    for (var img in images) {
+      if (images[img].style != undefined) {
+        this.images.push([images[img], images[img].dataset.src || images[img].src, [[images[img].width], [images[img].height]], images[img].style.visibility])
+        var i = this.images[this.images.length-1]
+        i[0].style.visibility = "hidden";
       }
     }
   },
@@ -35,37 +44,37 @@ var White = {
       var ctx = c.getContext('2d');
       ctx.putImageData(data, 0, 0);
       var dataURI = c.toDataURL();
+      if (image[0].dataset.src == undefined) {
+        image[0].dataset.src = image[0].src;
+      }
       image[0].src = dataURI;
       image[0].style.visibility = image[3];
       that.loadLeft -= 1;
     }
-    vimg.onerror = function() {
+    vimg.onerror = function(a,b,c) {
       if (proxy == true) { // Show original image if nothing can be done.
         image[0].src = image[1];
+        that.loadLeft -= 1;
       } else {
         that.applyToImage(image, true);
       }
     }
-    if (image[0].src.indexOf(this.origin) != 0) { // Setting this when on origin causes a hang
-      vimg.crossOrigin = "Anonymous";
-    }
     var src;
+    //proxy = true;
     if (proxy) {
       src = this.proxy+image[1];
     } else {
       src = image[1];
     }
+
+    if (src.indexOf(this.origin) != 0) { // Setting this when on origin causes a hang
+      vimg.crossOrigin = "Anonymous";
+    }
+
     vimg.src = src;
   },
-  initImages: function(selector) {
-    var images = document.querySelectorAll(selector);
-    for (var img in images) {
-      if (images[img].style != undefined) {
-        this.images.push([images[img], images[img].src, [[images[img].width], [images[img].height]], images[img].style.visibility])
-        var i = this.images[this.images.length-1]
-        i[0].style.visibility = "hidden";
-      }
-    }
+  filterImage: function(image, w, h) {
+    return this.filter(this.getPixels(image, w, h));
   },
   getPixels: function(img, w, h) {
     var c = this.getCanvas(w, h);
@@ -81,9 +90,6 @@ var White = {
     c.width = w;
     c.height = h;
     return c;
-  },
-  filterImage: function(image, w, h) {
-    return this.filter(this.getPixels(image, w, h));
   },
   filter: function(pixels, args) {
     var data = pixels.data;

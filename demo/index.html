@@ -58,9 +58,24 @@
 
       <p>These images were all in color, but now they're not! Thanks to <b>White.js</b> (and not Photoshop or GIMP).</p>
 
+      <p>Also, try your own image URL: <input id="img_url" type="text" name="url" /></p>
+
+      <div id="custom_img"></div>
+
       <script src="white.js"></script>
       <script src="dat.gui.min.js"></script>
       <script>
+        var input = document.querySelector('#img_url');
+        var img_container = document.querySelector('#custom_img');
+
+        input.addEventListener('input', function()
+        {
+            img_container.innerHTML = "<img src='"+input.value+"' />"
+            setTimeout(function() { // For some reason we get a cross-origin error in Chrome if we don't add this timeout
+              White.run();
+            }, 0);
+        });
+
         //White.proxy = "http://crossorigin.me/";
         //White.proxy = "http://cors.io/?u=";
         //White.selector = "img";
