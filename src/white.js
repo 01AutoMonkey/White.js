@@ -22,7 +22,13 @@ var White = {
     for (var img in images) {
       if (images[img].style != undefined && images[img].tagName == "IMG") {
         // Element, src attribute, width & height, visibility style
-        this.images.push([images[img], images[img].dataset.src || images[img].src, [[images[img].width], [images[img].height]], images[img].style.visibility])
+        this.images.push([
+          images[img],
+          images[img].dataset.src || images[img].src,
+          [[images[img].width],
+          [images[img].height]],
+          images[img].style.visibility
+        ]);
 
         var i = this.images[this.images.length-1]
         i[0].style.visibility = "hidden";
@@ -35,10 +41,10 @@ var White = {
     var vimg = new Image();
 
     vimg.onload = function() {
-      var h = image[0].height;
       var w = image[0].width;
-      var data = that.filterImage(vimg, w, h);
+      var h = image[0].height;
       var c = that.getCanvas(w, h);
+      var data = that.filterImage(vimg, w, h, c);
       var ctx = c.getContext('2d');
       ctx.putImageData(data, 0, 0);
       var dataURI = c.toDataURL();
@@ -78,11 +84,10 @@ var White = {
     c.height = h;
     return c;
   },
-  filterImage: function(image, w, h) {
-    return this.filter(this.getPixels(image, w, h));
+  filterImage: function(image, w, h, c) {
+    return this.filter(this.getPixels(image, w, h, c));
   },
-  getPixels: function(img, w, h) {
-    var c = this.getCanvas(w, h);
+  getPixels: function(img, w, h, c) {
     var ctx = c.getContext('2d');
 
     // Grayscale

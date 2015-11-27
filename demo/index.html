@@ -64,7 +64,8 @@
         <img src="http://i.imgur.com/6IEIro6.jpg" />
       </div>
 
-      <script src="../bin/white.min.js"></script>
+      <script src="../src/white.js"></script>
+      <!--<script src="../build/white.js"></script>-->
       <script src="dat.gui.min.js"></script>
       <script>
         var input = document.querySelector('#img_url');
@@ -73,11 +74,9 @@
         input.addEventListener('input', function()
         {
             img_container.innerHTML = "<img src='"+input.value+"' />"
-            setTimeout(function() { // For some reason we get a cross-origin error in Chrome if we don't add this timeout
-              White.selector = "#custom_img img";
-              White.run();
-              White.selector = "img";
-            }, 0);
+            White.selector = "#custom_img img";
+            White.run();
+            White.selector = "img";
         });
 
         //White.proxy = "http://crossorigin.me/";

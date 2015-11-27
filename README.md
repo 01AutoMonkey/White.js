@@ -18,9 +18,7 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 ## ToDo
 
 - NPM and Bower package.
-- Support more then the img tag (e.x. css background-image)
-- **Bug:** In Chrome when adding an image to the page with innerHTML, you need to call White.run() inside a setTimeout set to 0, else you get a cross-origin error.
-- **Bug:** When changing values with dat.GUI, sometimes only the CORS-Disabled image in demo gets updated.
+- Support more tags then the img tag (e.x. css background-image)
 
 ## How to Use
 
@@ -34,3 +32,7 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
   - `White.contrast = 50;`
   - `White.black_threshold = 40;`
   - `White.white_threshold = 255;`
+
+## Prior Art
+
+Heavily inspired and based on http://www.html5rocks.com/en/tutorials/canvas/imagefilters/
