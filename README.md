@@ -19,6 +19,7 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 
 - NPM and Bower package.
 - Support more tags then the img tag (e.x. css background-image)
+- **Bug:** In Chrome sometimes when adding an image to the page with `.innerHTML`, you can't call `White.run()` immediately after or you get a cross-origin error, one way to get around it is to call it inside a `setTimeout` that's set to 0.
 
 ## How to Use
 
