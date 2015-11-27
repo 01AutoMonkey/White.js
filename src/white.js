@@ -10,80 +10,67 @@ var White = {
   loadLeft: 0,
   run: function() {
     if (this.loadLeft == 0) {
-      this.initImages(this.selector == undefined ? "img" : this.selector);
-      this.loadLeft = this.images.length;
+      this.initImages();
       for (var img in this.images) {
-        if (this.images[img][0].style != undefined) {
-          var image = this.images[img]
-          this.applyToImage(image, false);
-        }
+        this.applyToImage(this.images[img], false);
       }
     }
   },
-  initImages: function(selector) {
+  initImages: function() {
     this.images = [];
-    var images = document.querySelectorAll(selector);
+    var images = document.querySelectorAll(this.selector);
     for (var img in images) {
       if (images[img].style != undefined && images[img].tagName == "IMG") {
+        // Element, src attribute, width & height, visibility style
         this.images.push([images[img], images[img].dataset.src || images[img].src, [[images[img].width], [images[img].height]], images[img].style.visibility])
+
         var i = this.images[this.images.length-1]
         i[0].style.visibility = "hidden";
       }
     }
+    this.loadLeft = this.images.length;
   },
   applyToImage: function(image, proxy) {
     var that = this;
     var vimg = new Image();
+
     vimg.onload = function() {
       var h = image[0].height;
       var w = image[0].width;
       var data = that.filterImage(vimg, w, h);
-      var c = document.createElement("canvas");
-      c.height = h;
-      c.width = w;
+      var c = that.getCanvas(w, h);
       var ctx = c.getContext('2d');
       ctx.putImageData(data, 0, 0);
       var dataURI = c.toDataURL();
-      if (image[0].dataset.src == undefined) {
+      if (image[0].dataset.src == undefined) { // Remember original src, useful when applying White.run multiple times
         image[0].dataset.src = image[0].src;
       }
       image[0].src = dataURI;
       image[0].style.visibility = image[3];
       that.loadLeft -= 1;
     }
+
     vimg.onerror = function(a,b,c) {
       if (proxy == true) { // Show original image if nothing can be done.
         image[0].src = image[1];
         that.loadLeft -= 1;
       } else {
-        that.applyToImage(image, true);
+        that.applyToImage(image, true); // If error, try using proxy
       }
     }
+
     var src;
-    //proxy = true;
     if (proxy) {
       src = this.proxy+image[1];
     } else {
       src = image[1];
     }
 
-    if (src.indexOf(this.origin) != 0) { // Setting this when on origin causes a hang
+    if (src.indexOf(this.origin) != 0) { // Enable cross-origin if src url is not on origin
       vimg.crossOrigin = "Anonymous";
     }
 
     vimg.src = src;
-  },
-  filterImage: function(image, w, h) {
-    return this.filter(this.getPixels(image, w, h));
-  },
-  getPixels: function(img, w, h) {
-    var c = this.getCanvas(w, h);
-    var ctx = c.getContext('2d');
-    ctx.fillStyle = '#FFF';
-    ctx.fillRect(0, 0, c.width, c.height);
-    ctx.globalCompositeOperation = 'luminosity';
-    ctx.drawImage(img, 0, 0, c.width, c.height);
-    return ctx.getImageData(0,0,c.width,c.height);
   },
   getCanvas: function(w, h) {
     var c = document.createElement('canvas');
@@ -91,8 +78,22 @@ var White = {
     c.height = h;
     return c;
   },
-  filter: function(pixels, args) {
-    var data = pixels.data;
+  filterImage: function(image, w, h) {
+    return this.filter(this.getPixels(image, w, h));
+  },
+  getPixels: function(img, w, h) {
+    var c = this.getCanvas(w, h);
+    var ctx = c.getContext('2d');
+
+    // Grayscale
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.globalCompositeOperation = 'luminosity';
+
+    ctx.drawImage(img, 0, 0, c.width, c.height);
+    return ctx.getImageData(0,0,c.width,c.height);
+  },
+  filter: function(pixels) {
     var d = pixels.data;
 
     // Brightness
@@ -104,10 +105,10 @@ var White = {
 
     // Contrast
     var factor = (259 * (this.contrast + 255)) / (255 * (259 - this.contrast));
-    for (var i=0; i<data.length; i+=4) {
-      data[i] = factor * (data[i] - 128) + 128;
-      data[i+1] = factor * (data[i+1] - 128) + 128;
-      data[i+2] = factor * (data[i+2] - 128) + 128;
+    for (var i=0; i<d.length; i+=4) {
+      d[i] = factor * (d[i] - 128) + 128;
+      d[i+1] = factor * (d[i+1] - 128) + 128;
+      d[i+2] = factor * (d[i+2] - 128) + 128;
     }
 
     // Black Threshold

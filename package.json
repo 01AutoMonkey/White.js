@@ -7,7 +7,8 @@
     "img-white": "white.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "uglifyjs ./src/white.js > ./bin/white.min.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,9 @@
     "grayscale",
     "color"
   ],
+  "devDependencies": {
+    "uglify-js": "^2.6.1"
+  },
   "author": "Brynjar Harðarson",
   "license": "GPL-2.0",
   "bugs": {

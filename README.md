@@ -9,20 +9,18 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 - Works for images with CORS disabled (using a proxy)
 - Doesn't work for `file:///`
 - Images are changed through `src` so events for img elements still hold
-- Options
+- Has the following options:
   - Tweak the black & white filter through `brightness`, `contrast`, `black_threshold`, and `white_threshold`.
-  - Element selector (all images on page are selected by default)
-  - Select CORS proxy (e.x. `http://crossorigin.me/`, `http://cors.io/?u=`)
+  - Element selector (e.x. "img" or "img.white")
+  - Select CORS proxy (e.x. `http://crossorigin.me/` or `http://cors.io/?u=`)
 - See demo at [http://01automonkey.github.io/img-white/](http://01automonkey.github.io/img-white/)
 
 ## ToDo
 
-- Make a .min.js and build process
-- Cleanup, organize, optimize.
 - NPM and Bower package.
 - Support more then the img tag (e.x. css background-image)
-- Bug: In Chrome when adding an image to the page with innerHTML, you need to call White.run() inside a setTimeout set to 0, else you get a cross-origin error.
-- Bug: When changing values with dat.GUI, sometimes only the CORS-Disabled image in demo gets updated.
+- **Bug:** In Chrome when adding an image to the page with innerHTML, you need to call White.run() inside a setTimeout set to 0, else you get a cross-origin error.
+- **Bug:** When changing values with dat.GUI, sometimes only the CORS-Disabled image in demo gets updated.
 
 ## How to Use
 
