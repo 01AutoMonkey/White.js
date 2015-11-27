@@ -35,4 +35,4 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 
 ## Prior Art
 
-Heavily inspired and based on http://www.html5rocks.com/en/tutorials/canvas/imagefilters/
+Heavily inspired by and based on http://www.html5rocks.com/en/tutorials/canvas/imagefilters/
