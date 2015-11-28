@@ -26,15 +26,17 @@
 
           figure {
             display: inline-block;
-            margin: 10px;
+            margin: 0;
+            margin-right: 10px;
           }
 
-          p {
-            margin: 10px;
+          #restore {
+            margin-bottom: 10px;
           }
         </style>
     </head>
     <body>
+      <button id="restore" onClick="White.restore('img');">Restore Images</button><br>
       <figure>
         <img src="50.png" />
         <figcaption>Origin</figcaption>
@@ -65,9 +67,10 @@
       </div>
 
       <script src="../src/white.js"></script>
-      <!--<script src="../build/white.js"></script>-->
+      <!--<script src="../bin/white.min.js"></script>-->
       <script src="dat.gui.min.js"></script>
       <script>
+        var selector = "img";
         var input = document.querySelector('#img_url');
         var img_container = document.querySelector('#custom_img');
 
@@ -76,8 +79,7 @@
             img_container.innerHTML = "<img src='"+input.value+"' />"
             setTimeout(function() { // For some reason we get a cross-origin error in Chrome if we don't add this timeout
               White.selector = "#custom_img img";
-              White.run();
-              White.selector = "img";
+              White.run(selector);
             }, 0);
         });
 
@@ -88,23 +90,23 @@
         //White.contrast = 50;
         //White.black_threshold = 40;
         //White.white_threshold = 255;
-        White.run();
+        White.run(selector);
         var gui = new dat.GUI();
         gui.add(White, "brightness", 0, 255).onChange(function(newValue) {
           White.brightness = newValue;
-          White.run();
+          White.run(selector);
         });
         gui.add(White, "contrast", 0, 255).onChange(function(newValue) {
           White.contrast = newValue;
-          White.run();
+          White.run(selector);
         });
         gui.add(White, "black_threshold", 0, 255).onChange(function(newValue) {
           White.black_threshold = newValue;
-          White.run();
+          White.run(selector);
         });
         gui.add(White, "white_threshold", 0, 255).onChange(function(newValue) {
           White.white_threshold = newValue;
-          White.run();
+          White.run(selector);
         });
       </script>
     </body>

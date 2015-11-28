@@ -8,12 +8,19 @@ var White = {
   origin: window.location.origin,
   proxy: "http://crossorigin.me/", //or: "http://cors.io/?u=
   loadLeft: 0,
-  run: function() {
+  run: function(selector) {
+    this.selector = selector;
     if (this.loadLeft == 0) {
       this.initImages();
       for (var img in this.images) {
         this.applyToImage(this.images[img], false);
       }
+    }
+  },
+  restore: function(selector) {
+    var images = document.querySelectorAll(selector);
+    for (var img in images) {
+      this.restoreImage(images[img]);
     }
   },
   initImages: function() {
@@ -77,6 +84,11 @@ var White = {
     }
 
     vimg.src = src;
+  },
+  restoreImage: function(img) {
+    if (img.dataset.src != undefined && img.tagName == "IMG") {
+      img.src = img.dataset.src;
+    }
   },
   getCanvas: function(w, h) {
     var c = document.createElement('canvas');
