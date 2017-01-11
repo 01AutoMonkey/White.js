@@ -1,3 +1,15 @@
+
+var mailme = function(a) {
+    console.log('Caught!', a);
+}
+
+window.addEventListener('error', function(e) {
+    var ie = window.event || {};
+    var errMsg = e.message || ie.errorMessage || "404 error on " + window.location;
+    var errSrc = (e.filename || ie.errorUrl) + ': ' + (e.lineno || ie.errorLine);
+    mailme([errMsg, errSrc]);
+}, true);
+
 var White = {
   selector: "img",
   brightness: 33,
@@ -6,9 +18,12 @@ var White = {
   white_threshold: 255,
   images: [],
   origin: window.location.origin,
-  proxy: "http://crossorigin.me/", //or: "http://cors.io/?u=
+  proxy: ["http://crossorigin.me/", "http://cors.io/?u="],
+  proxy_index: 0,
   loadLeft: 0,
   run: function(selector) {
+    this.proxy_index = 0;
+    this.loadLeft = 0;
     this.selector = selector;
     if (this.loadLeft == 0) {
       this.initImages();
@@ -64,17 +79,21 @@ var White = {
     }
 
     vimg.onerror = function(a,b,c) {
-      if (proxy == true) { // Show original image if nothing can be done.
-        image[0].src = image[1];
+      if (proxy === true && that.proxy_index === that.proxy.length-1) { // Show original image if nothing can be done.
         that.loadLeft -= 1;
-      } else {
+        that.proxy_index = 0;
+        image[0].src = image[1];
+      } else if (proxy === true && that.proxy_index < that.proxy.length-1) {
+        that.proxy_index += 1;
+        that.applyToImage(image, true); // try next proxy
+      } else { 
         that.applyToImage(image, true); // If error, try using proxy
       }
     }
 
     var src;
     if (proxy) {
-      src = this.proxy+image[1];
+      src = this.proxy[this.proxy_index]+image[1];
     } else {
       src = image[1];
     }
@@ -83,6 +102,7 @@ var White = {
       vimg.crossOrigin = "Anonymous";
     }
 
+    console.log(src)
     vimg.src = src;
   },
   restoreImage: function(img) {

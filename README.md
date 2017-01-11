@@ -1,14 +1,15 @@
 # img-white
 
-Annoyed by colors? Well then you're in luck, now you can insert one script and all your images turn into pleasant black and white!
+Annoyed by colors? Well then you're in luck, now you can insert one script and all your images turn into pleasant black and white
 
 ![](screen_shot.png)
 
 - Works for images on origin
 - Works for images with CORS enabled
-- Works for images with CORS disabled (using a proxy)
+- Works for images with CORS disabled (using a proxy or multiple proxies for failsafe)
 - Doesn't work for `file:///`
 - Images are changed through `src` so events for img elements still hold
+- Has sane but tweakable defaults
 - Has the following options:
   - Tweak the black & white filter through `brightness`, `contrast`, `black_threshold`, and `white_threshold`
   - Element selector (e.x. "img" or "img.white")
@@ -27,8 +28,7 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 - Add the script to body: `<script src="white.js"></script>`
 - Call `White.run("img")`
 - You can also change the following variables before calling `.run()`:
-  - `White.proxy = "http://crossorigin.me/";`
-  - `White.proxy = "http://cors.io/?u=";`
+  - `White.proxy = ["http://crossorigin.me/", "http://cors.io/?u="];`
   - `White.selector = "img";`
   - `White.brightness = 33;`
   - `White.contrast = 50;`

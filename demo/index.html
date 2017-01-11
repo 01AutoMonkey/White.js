@@ -33,10 +33,18 @@
           #restore {
             margin-bottom: 10px;
           }
+
+          #custom_img img {
+            max-width: 900px;
+          }
+
+          #img_url {
+            width: 350px;
+          }
         </style>
     </head>
     <body>
-      <button id="restore" onClick="White.restore('img');">Restore Images</button><br>
+      <button id="apply" onClick="White.run('img');">Apply</button><button id="restore" onClick="White.restore('img');">Restore</button><br>
       <figure>
         <img src="50.png" />
         <figcaption>Origin</figcaption>
@@ -58,9 +66,9 @@
         <figcaption>CORS Disabled (Use Proxy)</figcaption>
       </figure>
 
-      <p>These images were all in color, but now they're not! Thanks to <b>White.js</b> (and not Photoshop or GIMP).</p>
+      <p>These images were all in color, but now they're not (<a href="https://github.com/01AutoMonkey/img-white">GitHub</a>).</p>
 
-      <p>Also, try your own image URL: <input id="img_url" type="text" name="url" value="http://i.imgur.com/6IEIro6.jpg" /></p>
+      <p>Try your own image URL: <input id="img_url" type="text" name="url" value="http://i.imgur.com/6IEIro6.jpg" /></p>
 
       <div id="custom_img">
         <img src="http://i.imgur.com/6IEIro6.jpg" />
@@ -73,18 +81,20 @@
         var selector = "img";
         var input = document.querySelector('#img_url');
         var img_container = document.querySelector('#custom_img');
+        var input_value = "http://i.imgur.com/6IEIro6.jpg";
 
         input.addEventListener('input', function()
         {
+          if (input.value != "" && input_value.indexOf(input.value) != 0) {
+            input_value = input.value;
             img_container.innerHTML = "<img src='"+input.value+"' />"
             setTimeout(function() { // For some reason we get a cross-origin error in Chrome if we don't add this timeout
-              White.selector = "#custom_img img";
-              White.run(selector);
+              White.run("#custom_img img");
             }, 0);
+          }
         });
 
-        //White.proxy = "http://crossorigin.me/";
-        //White.proxy = "http://cors.io/?u=";
+        //White.proxy = ["http://crossorigin.me/", "http://cors.io/?u="];
         //White.selector = "img";
         //White.brightness = 33;
         //White.contrast = 50;
