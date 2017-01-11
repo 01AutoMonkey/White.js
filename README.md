@@ -1,6 +1,6 @@
 # img-white
 
-Annoyed by colors? Well then you're in luck, now you can insert one script and all your images turn into pleasant black and white
+A script that turns images on a webpage from color to black and white / grayscale.
 
 ![](screen_shot.png)
 
@@ -34,7 +34,9 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
   - `White.contrast = 50;`
   - `White.black_threshold = 40;`
   - `White.white_threshold = 255;`
-- And to restore the images back to their original state, call `White.restore("img")`;
+- And to restore the images back to their original state, call `White.restore("img");`
+- You can also run the script using only the script tag by adding `?run=true` to the src URI
+- You can also set options through the script src URI, such as `?run=true&brightness=50`
 
 ## Prior Art
 

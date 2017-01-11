@@ -79,7 +79,7 @@
         <img src="http://i.imgur.com/ndYluc3.jpg" />
       </div>
 
-      <script src="../src/white.js"></script>
+      <script src="../src/white.js?run=true&selector=img"></script>
       <!--<script src="../bin/white.min.js"></script>-->
       <script src="dat.gui.min.js"></script>
       <script>
@@ -105,7 +105,7 @@
         //White.contrast = 50;
         //White.black_threshold = 40;
         //White.white_threshold = 255;
-        White.run(selector);
+        //White.run(selector);
         var gui = new dat.GUI();
         gui.add(White, "brightness", 0, 255).onChange(function(newValue) {
           White.brightness = newValue;
