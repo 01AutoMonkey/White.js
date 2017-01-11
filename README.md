@@ -6,15 +6,15 @@ Annoyed by colors? Well then you're in luck, now you can insert one script and a
 
 - Works for images on origin
 - Works for images with CORS enabled
-- Works for images with CORS disabled (using a proxy or multiple proxies for failsafe)
-- Doesn't work for `file:///`
+- Works for images with CORS disabled (using one proxy, or more for failsafe)
+- **Doesn't work** for `file:///`
 - Images are changed through `src` so events for img elements still hold
 - Has sane but tweakable defaults
-- Has the following options:
+- Has the following settings:
   - Tweak the black & white filter through `brightness`, `contrast`, `black_threshold`, and `white_threshold`
-  - Element selector (e.x. "img" or "img.white")
+  - Element selector (e.x. "img", "img.white", etc)
   - Select CORS proxy (e.x. `http://crossorigin.me/` or `http://cors.io/?u=`)
-- And you can restore images to their original state with `White.restore("img")`
+- You can restore images to their original state with `White.restore("img")`
 - See demo at [http://01automonkey.github.io/img-white/](http://01automonkey.github.io/img-white/)
 
 ## ToDo
