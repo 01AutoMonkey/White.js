@@ -9,10 +9,12 @@ var White = {
   proxy: ["http://crossorigin.me/", "http://cors.io/?u="],
   proxy_index: 0,
   loadLeft: 0,
+  canvas: document.createElement('canvas'),
   run: function(selector) {
     this.proxy_index = 0;
     this.loadLeft = 0;
     this.selector = this.selector || selector;
+    this.factor = (259 * (this.contrast + 255)) / (255 * (259 - this.contrast));
     if (this.loadLeft == 0) {
       this.initImages();
       for (var img in this.images) {
@@ -53,7 +55,9 @@ var White = {
     vimg.onload = function() {
       var w = image[0].naturalWidth || image[0].width;
       var h = image[0].naturalHeight || image[0].height;
-      var c = that.getCanvas(w, h);
+      var c = that.canvas; //that.getCanvas(w, h);
+      c.width = w;
+      c.height = h;
       var data = that.filterImage(vimg, w, h, c);
       var ctx = c.getContext('2d');
       ctx.putImageData(data, 0, 0);
@@ -90,7 +94,6 @@ var White = {
       vimg.crossOrigin = "Anonymous";
     }
 
-    console.log(src)
     vimg.src = src;
   },
   restoreImage: function(img) {
@@ -119,52 +122,45 @@ var White = {
     return ctx.getImageData(0,0,c.width,c.height);
   },
   filter: function(pixels) {
-    var d = pixels.data;
+    var pixels_data_length = pixels.data.length;
 
-    // Brightness
-    for (var i=0; i<d.length; i+=4) {
-      d[i] += this.brightness;
-      d[i+1] += this.brightness;
-      d[i+2] += this.brightness;
-    }
+    // Pixel Loop
+    var r,g,b;
+    for (var i = 0; i < pixels_data_length; i += 4) {
+      r = i;
+      g = i+1;
+      b = i+2;
 
-    // Contrast
-    var factor = (259 * (this.contrast + 255)) / (255 * (259 - this.contrast));
-    for (var i=0; i<d.length; i+=4) {
-      d[i] = factor * (d[i] - 128) + 128;
-      d[i+1] = factor * (d[i+1] - 128) + 128;
-      d[i+2] = factor * (d[i+2] - 128) + 128;
-    }
+      // Brightness
+      pixels.data[r] += this.brightness; // r
+      pixels.data[g] += this.brightness; // g
+      pixels.data[b] += this.brightness; // b
 
-    // Black Threshold
-    for (var i=0; i<d.length; i+=4) {
-      var r = d[i];
-      var g = d[i+1];
-      var b = d[i+2];
-      if (r < this.black_threshold) {
-        d[i] = this.black_threshold;
-      }
-      if (g < this.black_threshold) {
-        d[i+1] = this.black_threshold
-      }
-      if (b < this.black_threshold) {
-        d[i+2] = this.black_threshold;
-      }
-    }
+      // Contrast
+      pixels.data[r] = this.factor * (pixels.data[i] - 128) + 128; // r
+      pixels.data[g] = this.factor * (pixels.data[i+1] - 128) + 128; // g
+      pixels.data[b] = this.factor * (pixels.data[i+2] - 128) + 128; // b
 
-    // White Threshold
-    for (var i=0; i<d.length; i+=4) {
-      var r = d[i];
-      var g = d[i+1];
-      var b = d[i+2];
-      if (r > this.white_threshold) {
-        d[i] = this.white_threshold;
+      // Black Threshold
+      if (pixels.data[r] < this.black_threshold) { // r
+        pixels.data[r] = this.black_threshold;
       }
-      if (g > this.white_threshold) {
-        d[i+1] = this.white_threshold
+      if (pixels.data[g] < this.black_threshold) { // g
+        pixels.data[g] = this.black_threshold;
       }
-      if (b > this.white_threshold) {
-        d[i+2] = this.white_threshold;
+      if (pixels.data[b] < this.black_threshold) { // b
+        pixels.data[b] = this.black_threshold;
+      }
+
+      // White Threshold
+      if (pixels.data[r] > this.white_threshold) { // r
+        pixels.data[r] = this.white_threshold;
+      }
+      if (pixels.data[g] > this.white_threshold) { // g
+        pixels.data[g] = this.white_threshold;
+      }
+      if (pixels.data[b] > this.white_threshold) { // b
+        pixels.data[b] = this.white_threshold;
       }
     }
 
