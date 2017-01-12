@@ -51,8 +51,8 @@ var White = {
     var vimg = new Image();
 
     vimg.onload = function() {
-      var w = image[0].width;
-      var h = image[0].height;
+      var w = image[0].naturalWidth || image[0].width;
+      var h = image[0].naturalHeight || image[0].height;
       var c = that.getCanvas(w, h);
       var data = that.filterImage(vimg, w, h, c);
       var ctx = c.getContext('2d');

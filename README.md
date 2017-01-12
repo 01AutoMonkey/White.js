@@ -37,6 +37,7 @@ A script that turns images on a webpage from color to black and white / grayscal
 - And to restore the images back to their original state, call `White.restore("img");`
 - You can also run the script using only the script tag by adding `?run=true` to the src URI
 - You can also set options through the script src URI, such as `?run=true&brightness=50`
+- So the simplest way to apply it is to just add this script: `https://cdn.rawgit.com/01AutoMonkey/img-white/master/bin/white.min.js?run=true`
 
 ## Prior Art
 
