@@ -13,7 +13,7 @@ var White = {
   run: function(selector) {
     this.proxy_index = 0;
     this.loadLeft = 0;
-    this.selector = this.selector || selector;
+    this.selector = selector || this.selector;
     this.factor = (259 * (this.contrast + 255)) / (255 * (259 - this.contrast));
     if (this.loadLeft == 0) {
       this.initImages();
