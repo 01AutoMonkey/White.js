@@ -5,128 +5,107 @@ var White = {
   black_threshold: 40,
   white_threshold: 255,
   images: [],
-  origin: window.location.origin,
+  image_info: [],
   proxy: ["http://cors-anywhere.herokuapp.com/", "http://crossorigin.me/", "http://cors.io/?u="],
-  proxy_index: 0,
-  loadLeft: 0,
-  //canvas: document.createElement('canvas'),
+  origin: window.location.origin,
+  init: false,
   run: function(selector) {
-    this.proxy_index = 0;
-    this.loadLeft = 0;
+    console.log(selector)
     this.selector = selector || this.selector;
     this.factor = (259 * (this.contrast + 255)) / (255 * (259 - this.contrast));
-    if (this.loadLeft == 0) {
-      this.initImages();
-      for (var img in this.images) {
-        this.applyToImage(this.images[img], false);
-      }
-    }
-  },
-  restore: function(selector) {
-    var images = document.querySelectorAll(selector);
-    for (var img in images) {
-      this.restoreImage(images[img]);
-    }
+    this.initImages();
+    console.log("in")
+  	for (var img in this.images) {
+  		this.applyToImage(img);
+  	}
   },
   initImages: function() {
-    this.images = [];
     var images = document.querySelectorAll(this.selector);
     for (var img in images) {
       if (images[img].style != undefined && images[img].tagName == "IMG") {
         // Element, src attribute, width & height, visibility style
-        this.images.push([
-          images[img],
-          images[img].dataset.src || images[img].src,
-          [[images[img].width],
-          [images[img].height]],
-          images[img].style.visibility
-        ]);
-
-        var i = this.images[this.images.length-1]
-        i[0].style.visibility = "hidden";
+        if (this.images.indexOf(images[img]) == -1) {
+          this.images.push(images[img]);
+          this.image_info.push({
+            "src": images[img].src,
+            "proxy": -1,
+            "canvas": document.createElement('canvas'),
+            "size": {
+              "x": null,
+              "y": null
+            },
+            "pixels": null,
+            "vimg": null
+          })
+        } else {
+          console.log("already")
+        }
       }
     }
-    this.loadLeft = this.images.length;
+  	this.init = true;
   },
-  applyToImage: function(image, proxy) {
-    var that = this;
-    var vimg = new Image();
+  applyToImage: function(index) {
+  	var that = this;
+  	var img = this.images[index];
+  	var img_info = this.image_info[index];
 
-    vimg.onload = function() {
-      var w = image[0].naturalWidth || image[0].width;
-      var h = image[0].naturalHeight || image[0].height;
-      var c = document.createElement('canvas'); //that.getCanvas(w, h);
-      c.width = w;
-      c.height = h;
-      var data = that.filterImage(image, vimg, w, h, c);
-      console.log(data)
-      var ctx = c.getContext('2d');
-      ctx.putImageData(data, 0, 0);
-      var dataURI = c.toDataURL();
-      if (image[0].dataset.src == undefined) { // Remember original src, useful when applying White.run multiple times
-        image[0].dataset.src = image[0].src;
+    img_info.vimg = img_info.vimg || new Image();
+    img_info.vimg.onload = function() {
+      img_info.size = {
+	  	"x": this.naturalWidth || this.width,
+	  	"y": this.naturalHeight || this.height
+	  }
+      that.getPixels(img_info);
+      that.filter(img_info);
+
+      var ctx = img_info.canvas.getContext('2d');
+      ctx.putImageData(img_info.pixels, 0, 0);
+      var dataURI = img_info.canvas.toDataURL();
+      if (img.dataset.src == undefined) { // Remember original src, useful when applying White.run multiple times
+        img.dataset.src = img_info.src;
       }
-      image[0].src = dataURI;
-      image[0].style.visibility = image[3];
-      that.loadLeft -= 1;
+      img.src = dataURI;
     }
 
-    vimg.onerror = function(a,b,c) {
-      if (proxy === true && that.proxy_index === that.proxy.length-1) { // Show original image if nothing can be done.
-        that.loadLeft -= 1;
-        that.proxy_index = 0;
-        image[0].src = image[1];
-      } else if (proxy === true && that.proxy_index < that.proxy.length-1) {
-        that.proxy_index += 1;
-        that.applyToImage(image, true); // try next proxy
-      } else { 
-        that.applyToImage(image, true); // If error, try using proxy
+    img_info.vimg.onerror = function() {
+      if (img_info.proxy === that.proxy.length-1) { // Tried all proxies
+        img.src = img_info.src;
+        img_info.proxy = -1;
+      } else if (img_info.proxy < that.proxy.length-1) { // Not all tried
+        img_info.proxy += 1;
+        that.applyToImage(index);
       }
     }
 
     var src;
-    if (proxy) {
-      src = this.proxy[this.proxy_index]+image[1];
+    if (img_info.proxy > -1) {
+      src = this.proxy[that.image_info[index].proxy]+img_info.src;
     } else {
-      src = image[1];
+      src = img_info.src;
     }
 
     if (src.indexOf(this.origin) != 0) { // Enable cross-origin if src url is not on origin
-      vimg.crossOrigin = "Anonymous";
+      img_info.vimg.crossOrigin = "Anonymous";
     }
 
-    vimg.src = src;
+    img_info.vimg.src = src;
   },
-  restoreImage: function(img) {
-    if (img.dataset.src != undefined && img.tagName == "IMG") {
-      img.src = img.dataset.src;
-    }
-  },
-  /*getCanvas: function(w, h) {
-    var c = document.createElement('canvas');
-    c.width = w;
-    c.height = h;
-    return c;
-  },*/
-  filterImage: function(image, vimg, w, h, c) {
-    return this.filter(this.getPixels(image, vimg, w, h, c));
-  },
-  getPixels: function(image, vimg, w, h, c) {
-    if (image[4] && image[4].dataset.pixels) {
-      return JSON.parse(image.dataset.pixels);
-    }
-    var ctx = c.getContext('2d');
+  getPixels: function(that) {
+    var canvas = that.canvas;
+  	canvas.width = that.size.x;
+  	canvas.height = that.size.y;
+  	var ctx = canvas.getContext('2d');
 
     // Grayscale
     ctx.fillStyle = '#FFF';
-    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation = 'luminosity';
-    ctx.drawImage(vimg, 0, 0, c.width, c.height);
-    var pixels = ctx.getImageData(0,0,c.width,c.height);
-    image[4] = pixels;
-    return pixels;
+    ctx.drawImage(that.vimg, 0, 0, canvas.width, canvas.height);
+
+    that.pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
   },
-  filter: function(pixels) {
+  filter: function(img_info) {
+  	var pixels = img_info.pixels;
     var pixels_data_length = pixels.data.length;
 
     // Pixel Loop
@@ -168,10 +147,13 @@ var White = {
         pixels.data[b] = this.white_threshold;
       }
     }
-
-    return pixels
+  },
+  restore: function() {
+  	for (var img in this.images) {
+  		this.images[img].src = this.image_info[img].src;
+  	}
   }
-};
+}
 
 var QueryString = function () {
   // This function is anonymous, is executed immediately and 
@@ -196,7 +178,6 @@ var QueryString = function () {
   } 
   return query_string;
 }();
-
 
 (function(funcName, baseObj) {
     "use strict";
