@@ -1,19 +1,19 @@
 # img-white
 
-A script that turns images on a webpage from color to black and white / grayscale.
+A script that turns images on a webpage from color to black-and-white / grayscale.
 
 ![](screen_shot.png)
 
 - Works for images on origin
 - Works for images with CORS enabled
-- Works for images with CORS disabled (using one or more(failsafe) proxy)
+- Works for images with CORS disabled (trying out one or more proxy)
 - **Doesn't work** for `file:///`
 - Images are changed through `src` so events for img elements still hold
 - Has sane but tweakable defaults
 - Has the following settings:
   - Tweak the black & white filter through `brightness`, `contrast`, `black_threshold`, and `white_threshold`
-  - Element selector (e.x. "img", "img.white", etc)
-  - Select CORS proxy (e.x. `http://cors-anywhere.herokuapp.com/`, `http://crossorigin.me/`, `http://cors.io/?u=`)
+  - Element selector (e.g. "img", "img.white", etc)
+  - Select CORS proxy (e.g. `http://cors-anywhere.herokuapp.com/`, `http://crossorigin.me/`, `http://cors.io/?u=`)
 - You can restore filtered images to their original state with `White.restore()`
 - See demo at [http://01automonkey.github.io/img-white/](http://01automonkey.github.io/img-white/)
 
@@ -21,7 +21,7 @@ A script that turns images on a webpage from color to black and white / grayscal
 
 - implement black and white *bottom* threshold
 - NPM and Bower package.
-- Support more image sources then the img tag (e.x. css background-image)
+- Support more image sources than the img tag (e.g. css background-image)
 - **Bug:** In Chrome sometimes when adding an image to the page with `.innerHTML`, you can't call `White.run()` immediately after or you get a cross-origin error, one way to get around it is to call it inside a `setTimeout` that's set to 0.
 
 ## How to Use

@@ -79,11 +79,11 @@
         <img src="http://i.imgur.com/ndYluc3.jpg" />
       </div>
 
-      <script src="../src/white2.js?run=true&selector=img"></script>
+      <script src="../src/white.js?run=true&selector=img"></script>
       <!--<script src="../bin/white.min.js"></script>-->
       <script src="dat.gui.min.js"></script>
       <script>
-        var selector = "img";
+        /*var selector = "img";
         var input = document.querySelector('#img_url');
         var img_container = document.querySelector('#custom_img');
         var input_value = "http://i.imgur.com/ndYluc3.jpg";
@@ -105,23 +105,23 @@
         //White.contrast = 50;
         //White.black_threshold = 40;
         //White.white_threshold = 255;
-        //White.run(selector);
+        //White.run(selector);*/
         var gui = new dat.GUI();
         gui.add(White, "brightness", 0, 255).onChange(function(newValue) {
           White.brightness = newValue;
-          White.run(selector);
+          White.run();
         });
         gui.add(White, "contrast", 0, 255).onChange(function(newValue) {
           White.contrast = newValue;
-          White.run(selector);
+          White.run();
         });
         gui.add(White, "black_threshold", 0, 255).onChange(function(newValue) {
           White.black_threshold = newValue;
-          White.run(selector);
+          White.run();
         });
         gui.add(White, "white_threshold", 0, 255).onChange(function(newValue) {
           White.white_threshold = newValue;
-          White.run(selector);
+          White.run();
         });
       </script>
     </body>
