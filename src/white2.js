@@ -10,11 +10,9 @@ var White = {
   origin: window.location.origin,
   init: false,
   run: function(selector) {
-    console.log(selector)
     this.selector = selector || this.selector;
     this.factor = (259 * (this.contrast + 255)) / (255 * (259 - this.contrast));
     this.initImages();
-    console.log("in")
   	for (var img in this.images) {
   		this.applyToImage(img);
   	}
@@ -52,9 +50,9 @@ var White = {
     img_info.vimg = img_info.vimg || new Image();
     img_info.vimg.onload = function() {
       img_info.size = {
-	  	"x": this.naturalWidth || this.width,
-	  	"y": this.naturalHeight || this.height
-	  }
+  	  	"x": this.naturalWidth || this.width,
+  	  	"y": this.naturalHeight || this.height
+  	  }
       that.getPixels(img_info);
       that.filter(img_info);
 
@@ -105,11 +103,11 @@ var White = {
     that.pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
   },
   filter: function(img_info) {
-  	var pixels = img_info.pixels;
-    var pixels_data_length = pixels.data.length;
-
     // Pixel Loop
     var r,g,b;
+    var pixels = img_info.pixels;
+    var pixels_data_length = pixels.data.length;
+
     for (var i = 0; i < pixels_data_length; i += 4) {
       r = i;
       g = i+1;
@@ -156,7 +154,7 @@ var White = {
 }
 
 var QueryString = function () {
-  // This function is anonymous, is executed immediately and 
+  // This function is anonymous, is executed immediately and
   // the return value is assigned to QueryString!
   var query_string = {};
   //var query = window.location.search.substring(1);
@@ -175,7 +173,7 @@ var QueryString = function () {
     } else {
       query_string[pair[0]].push(decodeURIComponent(pair[1]));
     }
-  } 
+  }
   return query_string;
 }();
 
@@ -183,14 +181,14 @@ var QueryString = function () {
     "use strict";
     // The public function name defaults to window.docReady
     // but you can modify the last line of this function to pass in a different object or method name
-    // if you want to put them in a different namespace and those will be used instead of 
+    // if you want to put them in a different namespace and those will be used instead of
     // window.docReady(...)
     funcName = funcName || "docReady";
     baseObj = baseObj || window;
     var readyList = [];
     var readyFired = false;
     var readyEventHandlersInstalled = false;
-    
+
     // call this when the document is ready
     // this function protects itself against being called more than once
     function ready() {
@@ -210,13 +208,13 @@ var QueryString = function () {
             readyList = [];
         }
     }
-    
+
     function readyStateChange() {
         if ( document.readyState === "complete" ) {
             ready();
         }
     }
-    
+
     // This is the one public interface
     // docReady(fn, context);
     // the context argument is optional - if present, it will be passed
@@ -251,7 +249,7 @@ var QueryString = function () {
         }
     }
 })("docReady", window);
-// modify this previous line to pass in your own method name 
+// modify this previous line to pass in your own method name
 // and object for the method to be attached to
 
 if (QueryString.proxy) White.proxy = QueryString.proxy;

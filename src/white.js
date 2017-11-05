@@ -79,7 +79,7 @@ var White = {
       } else if (proxy === true && that.proxy_index < that.proxy.length-1) {
         that.proxy_index += 1;
         that.applyToImage(image, true); // try next proxy
-      } else { 
+      } else {
         that.applyToImage(image, true); // If error, try using proxy
       }
     }
@@ -127,54 +127,56 @@ var White = {
     return pixels;
   },
   filter: function(pixels) {
-    var pixels_data_length = pixels.data.length;
 
     // Pixel Loop
     var r,g,b;
+    var pixelsData = pixels.data;
+    var pixels_data_length = pixelsData.length;
     for (var i = 0; i < pixels_data_length; i += 4) {
       r = i;
       g = i+1;
       b = i+2;
 
       // Brightness
-      pixels.data[r] += this.brightness; // r
-      pixels.data[g] += this.brightness; // g
-      pixels.data[b] += this.brightness; // b
+      pixelsData[r] += this.brightness; // r
+      pixelsData[g] += this.brightness; // g
+      pixelsData[b] += this.brightness; // b
 
       // Contrast
-      pixels.data[r] = this.factor * (pixels.data[r] - 128) + 128; // r
-      pixels.data[g] = this.factor * (pixels.data[g] - 128) + 128; // g
-      pixels.data[b] = this.factor * (pixels.data[b] - 128) + 128; // b
+      pixelsData[r] = this.factor * (pixelsData[r] - 128) + 128; // r
+      pixelsData[g] = this.factor * (pixelsData[g] - 128) + 128; // g
+      pixelsData[b] = this.factor * (pixelsData[b] - 128) + 128; // b
 
       // Black Threshold
-      if (pixels.data[r] < this.black_threshold) { // r
-        pixels.data[r] = this.black_threshold;
+      if (pixelsData[r] < this.black_threshold) { // r
+        pixelsData[r] = this.black_threshold;
       }
-      if (pixels.data[g] < this.black_threshold) { // g
-        pixels.data[g] = this.black_threshold;
+      if (pixelsData[g] < this.black_threshold) { // g
+        pixelsData[g] = this.black_threshold;
       }
-      if (pixels.data[b] < this.black_threshold) { // b
-        pixels.data[b] = this.black_threshold;
+      if (pixelsData[b] < this.black_threshold) { // b
+        pixelsData[b] = this.black_threshold;
       }
 
       // White Threshold
-      if (pixels.data[r] > this.white_threshold) { // r
-        pixels.data[r] = this.white_threshold;
+      if (pixelsData[r] > this.white_threshold) { // r
+        pixelsData[r] = this.white_threshold;
       }
-      if (pixels.data[g] > this.white_threshold) { // g
-        pixels.data[g] = this.white_threshold;
+      if (pixelsData[g] > this.white_threshold) { // g
+        pixelsData[g] = this.white_threshold;
       }
-      if (pixels.data[b] > this.white_threshold) { // b
-        pixels.data[b] = this.white_threshold;
+      if (pixelsData[b] > this.white_threshold) { // b
+        pixelsData[b] = this.white_threshold;
       }
     }
 
+    pixels.data = pixelsData;
     return pixels
   }
 };
 
 var QueryString = function () {
-  // This function is anonymous, is executed immediately and 
+  // This function is anonymous, is executed immediately and
   // the return value is assigned to QueryString!
   var query_string = {};
   //var query = window.location.search.substring(1);
@@ -193,7 +195,7 @@ var QueryString = function () {
     } else {
       query_string[pair[0]].push(decodeURIComponent(pair[1]));
     }
-  } 
+  }
   return query_string;
 }();
 
@@ -202,14 +204,14 @@ var QueryString = function () {
     "use strict";
     // The public function name defaults to window.docReady
     // but you can modify the last line of this function to pass in a different object or method name
-    // if you want to put them in a different namespace and those will be used instead of 
+    // if you want to put them in a different namespace and those will be used instead of
     // window.docReady(...)
     funcName = funcName || "docReady";
     baseObj = baseObj || window;
     var readyList = [];
     var readyFired = false;
     var readyEventHandlersInstalled = false;
-    
+
     // call this when the document is ready
     // this function protects itself against being called more than once
     function ready() {
@@ -229,13 +231,13 @@ var QueryString = function () {
             readyList = [];
         }
     }
-    
+
     function readyStateChange() {
         if ( document.readyState === "complete" ) {
             ready();
         }
     }
-    
+
     // This is the one public interface
     // docReady(fn, context);
     // the context argument is optional - if present, it will be passed
@@ -270,7 +272,7 @@ var QueryString = function () {
         }
     }
 })("docReady", window);
-// modify this previous line to pass in your own method name 
+// modify this previous line to pass in your own method name
 // and object for the method to be attached to
 
 if (QueryString.proxy) White.proxy = QueryString.proxy;
